@@ -12,7 +12,7 @@ CREATE TABLE days
 CREATE TABLE plans
 (
   id            bigint   NOT NULL AUTO_INCREMENT COMMENT 'plans id',
-  user_id       varchar  NOT NULL COMMENT 'user id',
+  users_id      bigint   NOT NULL COMMENT 'users id',
   type          varchar  NOT NULL COMMENT 'A, B, C, D, E',
   name          varchar  NOT NULL COMMENT 'plan name',
   is_current    tinyint  NOT NULL DEFAULT 0 COMMENT '현재 여행여부(0, 1)',
@@ -37,6 +37,15 @@ CREATE TABLE times
   PRIMARY KEY (id)
 ) COMMENT '시간별 일정';
 
+CREATE TABLE users
+(
+  id            bigint   NOT NULL AUTO_INCREMENT COMMENT 'users id',
+  name          varchar  NOT NULL COMMENT 'user name',
+  created_date  datetime NOT NULL COMMENT 'created datetime',
+  modified_date datetime NOT NULL COMMENT 'modified datetime',
+  PRIMARY KEY (id)
+) COMMENT '사용자';
+
 ALTER TABLE days
   ADD CONSTRAINT FK_plans_TO_days
     FOREIGN KEY (plans id)
@@ -46,3 +55,8 @@ ALTER TABLE times
   ADD CONSTRAINT FK_days_TO_times
     FOREIGN KEY (days_id)
     REFERENCES days (id);
+
+ALTER TABLE plans
+  ADD CONSTRAINT FK_users_TO_plans
+    FOREIGN KEY (users_id)
+    REFERENCES users (id);
